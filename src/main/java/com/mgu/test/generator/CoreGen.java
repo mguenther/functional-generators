@@ -155,7 +155,7 @@ public class CoreGen {
      * @return
      *      {@code Gen} that returns a {@link Double} from within the range {@code [0.0, 1.0]}
      */
-    public static Gen<Double> doubleGen() {
+    public static Gen<Double> normalizedDouble() {
         return nonNegativeInteger().map(n -> n / (Double.valueOf(Integer.MAX_VALUE) + 1));
     }
 
@@ -168,7 +168,7 @@ public class CoreGen {
      *      {@code Gen} that returns a {@link Double} from within the range {@code [start, stopExclusive)}
      */
     public static Gen<Double> choose(final double start, final double stopExclusive) {
-        return doubleGen().map(d -> start + d * (stopExclusive - start));
+        return normalizedDouble().map(d -> start + d * (stopExclusive - start));
     }
 
     /**
@@ -184,7 +184,7 @@ public class CoreGen {
      *      probability {@code (1-probability)}
      */
     public static <T> Gen<T> weighted(final double probability, final Gen<T> genT1, final Gen<T> genT2) {
-        return doubleGen().flatMap(d -> d < probability ? genT1 : genT2);
+        return normalizedDouble().flatMap(d -> d < probability ? genT1 : genT2);
     }
 
     /**
