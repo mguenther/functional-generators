@@ -10,12 +10,23 @@ import static com.mgu.test.generator.CoreGen.listOfN;
  */
 public class StringGen {
 
-    public static Gen<String> asciiString(final int length) {
+    private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase() + "0123456789";
+
+    public static Gen<String> asciiStringGen(final int length) {
         return listOfN(choose(0, 127), length)
                 .map(list -> list
                         .stream()
                         .map(n -> Character.toChars(n))
                         .map(c -> String.valueOf(c))
                         .reduce("", String::concat, String::concat));
+    }
+
+    public static Gen<String> alphaNumStringGen(final int length) {
+        return listOfN(choose(0, ALPHABET.length()-1), length)
+                .map(list -> list
+                .stream()
+                .map(n -> ALPHABET.charAt(n))
+                .map(c -> String.valueOf(c))
+                .reduce("", String::concat, String::concat));
     }
 }
