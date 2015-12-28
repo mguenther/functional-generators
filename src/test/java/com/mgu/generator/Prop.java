@@ -11,6 +11,6 @@ public class Prop {
         return CoreGen.listOfN(gen, DEFAULT_NUMBER_OF_INSTANCES)
                 .sample()
                 .stream()
-                .allMatch(instance -> predicate.test(instance));
+                .allMatch(predicate::test);
     }
 }

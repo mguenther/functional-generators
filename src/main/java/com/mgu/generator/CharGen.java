@@ -13,9 +13,9 @@ public class CharGen {
 
     private static final char[] ALPHABET_LOWER_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase().toCharArray();
 
-    private static final char[] NON_NUMERIC_ALPHABET = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase()).toCharArray();
+    private static final char[] NON_NUMERIC_ALPHABET = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase()).toCharArray();
 
-    private static final char[] ALPHANUMERIC_ALPHABET = new String("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase() + "0123456789").toCharArray();
+    private static final char[] ALPHANUMERIC_ALPHABET = ("ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase() + "0123456789").toCharArray();
 
     public static Gen<Character> numCharGen() {
         return charFromAlphabetGen(NUMERIC_ALPHABET);

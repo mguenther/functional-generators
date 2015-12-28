@@ -164,7 +164,7 @@ public class CoreGen {
      *      {@code Gen} that returns a {@link Double} from within the range {@code [0.0, 1.0]}
      */
     public static Gen<Double> normalizedDouble() {
-        return nonNegativeInteger().map(n -> n / (Double.valueOf(Integer.MAX_VALUE) + 1));
+        return nonNegativeInteger().map(n -> n / ((double) Integer.MAX_VALUE + 1));
     }
 
     /**
