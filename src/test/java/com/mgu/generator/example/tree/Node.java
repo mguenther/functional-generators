@@ -1,4 +1,4 @@
-package com.mgu.test.generator.example.tree;
+package com.mgu.generator.example.tree;
 
 import java.util.Collections;
 import java.util.List;

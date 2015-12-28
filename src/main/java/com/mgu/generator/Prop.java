@@ -1,4 +1,4 @@
-package com.mgu.test.generator;
+package com.mgu.generator;
 
 import java.util.function.Predicate;
 
@@ -11,6 +11,7 @@ public class Prop {
         return CoreGen.listOfN(gen, DEFAULT_NUMBER_OF_INSTANCES)
                 .sample()
                 .stream()
+                .peek(i -> System.out.println(i))
                 .allMatch(instance -> predicate.test(instance));
     }
 }

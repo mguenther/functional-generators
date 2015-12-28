@@ -1,4 +1,4 @@
-package com.mgu.test.generator.example.tree;
+package com.mgu.generator.example.tree;
 
 public class Leaf<T> implements Tree<T> {
 

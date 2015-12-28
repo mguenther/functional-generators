@@ -1,4 +1,4 @@
-package com.mgu.test.generator;
+package com.mgu.generator;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -18,17 +18,17 @@ public interface Gen<T> {
 
     /**
      * @return
-     *      generated value of type {@code T}
+     *      generated constant of type {@code T}
      */
     T sample();
 
     /**
      * Combinator function that returns a new {@code Gen} of type {@code U} which closes over
      * this {@code Gen}. Upon application, it evaluates this {@code Gen} and applies the given
-     * {@link Function} on it to obtain a value of {@code U}.
+     * {@link Function} on it to obtain a constant of {@code U}.
      *
      * @param mapper
-     *      maps the output of this {@code Gen} to a value of type {@code U}
+     *      maps the output of this {@code Gen} to a constant of type {@code U}
      * @param <U>
      *      target type of the outer {@code Gen} returned by this method
      * @return

@@ -1,4 +1,4 @@
-package com.mgu.test.generator;
+package com.mgu.generator;
 
 import java.util.Random;
 

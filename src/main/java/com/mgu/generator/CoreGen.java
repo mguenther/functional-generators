@@ -1,4 +1,4 @@
-package com.mgu.test.generator;
+package com.mgu.generator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -23,7 +23,7 @@ public class CoreGen {
      * @return
      *      {@code Gen} that always generates {@code value}.
      */
-    public static <T> Gen<T> value(final T value) {
+    public static <T> Gen<T> constant(final T value) {
         return () -> value;
     }
 
@@ -41,8 +41,10 @@ public class CoreGen {
      *      {@code Gen} that randomly returns one of the provided values
      */
     public static <T> Gen<T> oneOf(final List<T> values) {
-        final int index = (int) (Math.random() * values.size());
-        return () -> values.get(index);
+        return () -> {
+            final int index = (int) (Math.random() * values.size());
+            return values.get(index);
+        };
     }
 
     /**
@@ -52,8 +54,10 @@ public class CoreGen {
     @SafeVarargs
     public static <T> Gen<T> oneOf(final Gen<T>... gs) {
         final List<Gen<T>> gsAsList = Arrays.asList(gs);
-        final int index = (int) (Math.random() * gsAsList.size());
-        return gsAsList.get(index);
+        return () -> {
+            final int index = (int) (Math.random() * gsAsList.size());
+            return gsAsList.get(index).sample();
+        };
     }
 
     /**
@@ -85,11 +89,13 @@ public class CoreGen {
      *      generated lists
      */
     public static <T> Gen<List<T>> listOf(final Gen<T> genT, final int maxLength) {
-        final int length = (int) (random() * max(0, maxLength));
-        return () -> Stream.iterate(genT, t -> t)
-                .limit(length)
-                .map(Gen::sample)
-                .collect(Collectors.toList());
+        return () -> {
+            final int length = (int) (random() * max(0, maxLength));
+            return Stream.iterate(genT, t -> t)
+                    .limit(length)
+                    .map(Gen::sample)
+                    .collect(Collectors.toList());
+        };
     }
 
     /**
@@ -104,11 +110,13 @@ public class CoreGen {
      */
     public static <T> Gen<List<T>> nonEmptyListOf(final Gen<T> genT, final int maxLength) {
         final int sanitizedMaxLength = max(1, maxLength);
-        final int  length = (int) (random() * sanitizedMaxLength + 1);
-        return () -> Stream.iterate(genT, t -> t)
-                .limit(length)
-                .map(Gen::sample)
-                .collect(Collectors.toList());
+        return () -> {
+            final int  length = (int) (random() * sanitizedMaxLength + 1);
+            return Stream.iterate(genT, t -> t)
+                    .limit(length)
+                    .map(Gen::sample)
+                    .collect(Collectors.toList());
+        };
     }
 
     /**
@@ -148,7 +156,7 @@ public class CoreGen {
      *      {@code Gen} that returns an {@link Integer} from within the range {@code [start, stopExclusive)}
      */
     public static Gen<Integer> choose(final int start, final int stopExclusive) {
-        return nonNegativeInteger().map(n -> start + n % (stopExclusive - start));
+        return nonNegativeInteger().map(n -> start + (n % (stopExclusive - start)));
     }
 
     /**

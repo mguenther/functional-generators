@@ -1,7 +1,6 @@
-package com.mgu.test.generator;
+package com.mgu.generator;
 
-import static com.mgu.test.generator.CoreGen.choose;
-import static com.mgu.test.generator.CoreGen.listOfN;
+import static com.mgu.generator.CoreGen.choose;
 
 /**
  * {@code Gen} implementations for {@link java.lang.String}.
@@ -13,7 +12,7 @@ public class StringGen {
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toLowerCase() + "0123456789";
 
     public static Gen<String> asciiStringGen(final int length) {
-        return listOfN(choose(0, 127), length)
+        return CoreGen.listOfN(CoreGen.choose(0, 127), length)
                 .map(list -> list
                         .stream()
                         .map(n -> Character.toChars(n))
@@ -22,7 +21,7 @@ public class StringGen {
     }
 
     public static Gen<String> alphaNumStringGen(final int length) {
-        return listOfN(choose(0, ALPHABET.length()-1), length)
+        return CoreGen.listOfN(CoreGen.choose(0, ALPHABET.length()-1), length)
                 .map(list -> list
                 .stream()
                 .map(n -> ALPHABET.charAt(n))
