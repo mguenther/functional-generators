@@ -72,7 +72,7 @@ Package `com.mgu.generator.example.tree` shows how we can leverage this proof-of
         }
     }
     
-Noteworthy is use of `CoreGen.lazy` to decouple the `oneOf` generator from the recursive call. This is actually required to prevent mutually recursive generator definitions that exhaust the call stack.
+Noteworthy is the use of `CoreGen.lazy` to decouple the `oneOf` generator from the recursive call. This is actually required to prevent mutually recursive generator definitions that exhaust the call stack.
 
 ## License
 
