@@ -9,7 +9,7 @@ Functional-style Java 8 enables us to build powerful abstractions that lead to c
 
 ## Design
 
-`Gen<T>` is the functional interface that represents some thing that knows how to generate instances of class `T`. It implements default methods for a small set of combinators, namely `map`, `flatMap` and `suchThat`. The latter shows one can provide combinators that play well together with other functional interfaces.
+`Gen<T>` is the functional interface that represents some thing that knows how to generate instances of class `T`. It implements default methods for a small set of combinators, namely `map`, `flatMap` and `suchThat`. The latter shows how one can implement combinators that play well together with other functional interfaces.
 
 This proof-of-concept also comes with a variety of generators. `CoreGen` provides a set of core generators from which more complex generators can be built. Since these core generators are fundamental when combining generators, their names are not - unlike all other generators - suffixed with a `gen`. Classes `BooleanGen`, `CharGen`, `IntegerGen` and `StringGen` demonstrate how we can leverage `Gen<T>` and `CoreGen` to build some generators for classes from the JDK.
 
