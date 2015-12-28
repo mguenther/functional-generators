@@ -29,14 +29,12 @@ public class Examples {
 
     @Test
     public void usingCharGensToConstructStrings() {
-        final Gen<String> stringGen = () ->
-            new String(new char [] {
-                    numCharGen().sample(),
-                    alphaUpperCharGen().sample(),
-                    alphaLowerCharGen().sample(),
-                    alphaCharGen().sample(),
-                    alphaNumCharGen().sample()
-            });
+        final Gen<String> stringGen = numCharGen()
+                .flatMap(numChar -> alphaUpperCharGen()
+                .flatMap(alphaUpperChar -> alphaLowerCharGen()
+                .flatMap(alphaLowerChar -> alphaCharGen()
+                .flatMap(alphaChar -> alphaNumCharGen()
+                .map(alphaNumChar -> "" + numChar + alphaUpperChar + alphaLowerChar + alphaChar)))));
         System.out.println(stringGen.sample());
     }
 

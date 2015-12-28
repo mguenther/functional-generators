@@ -1,7 +1,10 @@
 package com.mgu.generator.example.tree;
 
-import com.mgu.generator.CoreGen;
 import com.mgu.generator.Gen;
+
+import static com.mgu.generator.CoreGen.lazy;
+import static com.mgu.generator.CoreGen.listOf;
+import static com.mgu.generator.CoreGen.oneOf;
 
 /**
  * {@code Gen} implementations for the tree example.
@@ -11,7 +14,7 @@ import com.mgu.generator.Gen;
 public class TreeGen {
 
     public static <T> Gen<Tree<T>> treeGen(final Gen<T> genT) {
-        return CoreGen.lazy(() -> CoreGen.oneOf(leafGen(genT), nodeGen(genT)));
+        return lazy(() -> oneOf(leafGen(genT), nodeGen(genT)));
     }
 
     private static <T> Gen<Tree<T>> leafGen(final Gen<T> genT)  {
@@ -19,6 +22,6 @@ public class TreeGen {
     }
 
     private static <T> Gen<Tree<T>> nodeGen(final Gen<T> genT) {
-        return CoreGen.listOf(treeGen(genT), 3).map(Node::new);
+        return listOf(treeGen(genT), 3).map(Node::new);
     }
 }

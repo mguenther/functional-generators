@@ -16,35 +16,22 @@ public class UserGen {
         return oneOf("habitat47", "google", "spiegel");
     }
 
-    private static Gen<String> validEmailGen(final String firstName, final String lastName) {
-        return () -> new StringBuilder()
-                .append(firstName)
-                .append(oneOf("-", ".", "_").sample())
-                .append(lastName)
-                .append(constant("@").sample())
-                .append(domainNameGen().sample())
-                .append(constant(".").sample())
-                .append(topLevelDomainNameGen().sample())
-                .toString();
+    private static Gen<String> validEmailGen(final Gen<String> firstNameGen, final Gen<String> lastNameGen) {
+        return firstNameGen
+                .flatMap(firstName -> oneOf("-", ".", "_")
+                .flatMap(nameDelimiter -> lastNameGen
+                .flatMap(lastName -> constant("@")
+                .flatMap(at -> domainNameGen()
+                .flatMap(domainName -> constant(".")
+                .flatMap(domainDelimiter -> topLevelDomainNameGen()
+                .map(topLevelDomain -> firstName + nameDelimiter + lastName + at + domainName + domainDelimiter + topLevelDomain)))))));
     }
 
     public static Gen<User> userGen() {
-        return () -> alphaNumStringGen(8)
-                .map(firstName -> alphaNumStringGen(8)
-                    .map(lastName -> validEmailGen(firstName, lastName)
-                        .map(email -> new User(
-                                firstName + " " + lastName,
-                                email,
-                                alphaNumStringGen(14).sample()))
-                            .sample())
-                        .sample())
-                .sample();
-    }
-
-    public static Gen<User> flatMapUserGen() {
         return alphaNumStringGen(8)
                 .flatMap(firstName -> alphaNumStringGen(8)
-                .flatMap(lastName -> validEmailGen(firstName, lastName)
-                .flatMap(email -> () -> new User(firstName + " " + lastName, email, alphaNumStringGen(14).sample()))));
+                .flatMap(lastName -> validEmailGen(constant(firstName), constant(lastName))
+                .flatMap(email -> alphaNumStringGen(14)
+                .map(hashedPassword -> new User(firstName + " " + lastName, email, hashedPassword)))));
     }
 }
