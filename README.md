@@ -21,35 +21,37 @@ This proof-of-concept also comes with some examples. Examples are located in the
 
 Package `com.mgu.generator.example.user` shows how we can use generators to produce instances of a simple user abstraction.
 
-    public class UserGen {
-    
-        private static Gen<String> topLevelDomainNameGen() {
-            return oneOf("com", "de", "at", "ch", "ca", "uk", "gov", "edu");
-        }
-    
-        private static Gen<String> domainNameGen() {
-            return oneOf("habitat47", "google", "spiegel");
-        }
-    
-        private static Gen<String> validEmailGen(final Gen<String> firstNameGen, final Gen<String> lastNameGen) {
-            return firstNameGen
-                    .flatMap(firstName -> oneOf("-", ".", "_")
-                    .flatMap(nameDelimiter -> lastNameGen
-                    .flatMap(lastName -> constant("@")
-                    .flatMap(at -> domainNameGen()
-                    .flatMap(domainName -> constant(".")
-                    .flatMap(domainDelimiter -> topLevelDomainNameGen()
-                    .map(topLevelDomain -> firstName + nameDelimiter + lastName + at + domainName + domainDelimiter + topLevelDomain)))))));
-        }
-    
-        public static Gen<User> userGen() {
-            return alphaNumStringGen(8)
-                    .flatMap(firstName -> alphaNumStringGen(8)
-                    .flatMap(lastName -> validEmailGen(constant(firstName), constant(lastName))
-                    .flatMap(email -> alphaNumStringGen(14)
-                    .map(hashedPassword -> new User(firstName + " " + lastName, email, hashedPassword)))));
-        }
+```java
+public class UserGen {
+
+    private static Gen<String> topLevelDomainNameGen() {
+        return oneOf("com", "de", "at", "ch", "ca", "uk", "gov", "edu");
     }
+
+    private static Gen<String> domainNameGen() {
+        return oneOf("habitat47", "google", "spiegel");
+    }
+
+    private static Gen<String> validEmailGen(final Gen<String> firstNameGen, final Gen<String> lastNameGen) {
+        return firstNameGen
+                .flatMap(firstName -> oneOf("-", ".", "_")
+                .flatMap(nameDelimiter -> lastNameGen
+                .flatMap(lastName -> constant("@")
+                .flatMap(at -> domainNameGen()
+                .flatMap(domainName -> constant(".")
+                .flatMap(domainDelimiter -> topLevelDomainNameGen()
+                .map(topLevelDomain -> firstName + nameDelimiter + lastName + at + domainName + domainDelimiter + topLevelDomain)))))));
+    }
+
+    public static Gen<User> userGen() {
+        return alphaNumStringGen(8)
+                .flatMap(firstName -> alphaNumStringGen(8)
+                .flatMap(lastName -> validEmailGen(constant(firstName), constant(lastName))
+                .flatMap(email -> alphaNumStringGen(14)
+                .map(hashedPassword -> new User(firstName + " " + lastName, email, hashedPassword)))));
+    }
+}
+```
     
 Noteworthy is the combination of generators using `flatMap` and a final `map`. Subsequent `flatMap`s are called within a `flatMap`, so that previously bound variables inside the lambda are not lost. Also note that the last combinator *must be* a `map` (we do not want to return another generator but a sample!) and that we have full access to all generated values up to this point.
 
