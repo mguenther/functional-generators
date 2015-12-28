@@ -57,20 +57,22 @@ Noteworthy is the combination of generators using `flatMap` and a final `map`. S
 
 Package `com.mgu.generator.example.tree` shows how we can leverage this proof-of-concept to generate recursive data structures.
 
-    public class TreeGen {
-    
-        public static <T> Gen<Tree<T>> treeGen(final Gen<T> genT) {
-            return lazy(() -> oneOf(leafGen(genT), nodeGen(genT)));
-        }
-    
-        private static <T> Gen<Tree<T>> leafGen(final Gen<T> genT)  {
-            return genT.map(Leaf::new);
-        }
-    
-        private static <T> Gen<Tree<T>> nodeGen(final Gen<T> genT) {
-            return listOf(treeGen(genT), 3).map(Node::new);
-        }
+```java
+public class TreeGen {
+
+    public static <T> Gen<Tree<T>> treeGen(final Gen<T> genT) {
+        return lazy(() -> oneOf(leafGen(genT), nodeGen(genT)));
     }
+
+    private static <T> Gen<Tree<T>> leafGen(final Gen<T> genT)  {
+        return genT.map(Leaf::new);
+    }
+
+    private static <T> Gen<Tree<T>> nodeGen(final Gen<T> genT) {
+        return listOf(treeGen(genT), 3).map(Node::new);
+    }
+}
+```
     
 Noteworthy is the use of `CoreGen.lazy` to decouple the `oneOf` generator from the recursive call. This is actually required to prevent mutually recursive generator definitions that exhaust the call stack.
 
