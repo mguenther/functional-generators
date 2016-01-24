@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mgu.test</groupId>
-    <artifactId>generator-prototype</artifactId>
+    <artifactId>functional-gen-pbt</artifactId>
     <version>0.1.0</version>
     <packaging>jar</packaging>
 
-    <name>Functional Generators</name>
+    <name>Functional Generators and Property-Based Testing</name>
     <url>http://www.habitat47.de</url>
 
     <properties>
