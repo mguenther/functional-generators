@@ -137,19 +137,17 @@ Expressing the first property as a JUnit test is simple:
 ```java
 @Test
 public void mapShouldYieldFizzForMultiplesOfThreeButNotMultiplesOfFive() {
-
     Gen<Integer> multiplesOfThreeButNotFiveGen = 
         choose(start, end)
         .map(n -> 3 * n)
         .suchThat(n -> n % 5 != 0);
-        
     forAll(multiplesOfThreeButNotFiveGen, n -> fizzbuzz.map(n).equals("Fizz")).check().assertPassed()
 }
 ```
 
 `assertPassed` will raise an `AssertionError` if the property has been falsified, and thus fail the unit test. The console output for this test is either `+ OK, passed 100 tests.` in the success case or `! Falsified after <number> tests on sample <object>.` in case the property has been falsified.
 
-#### Ensuring Monoid Laws using Property-Based Tests
+#### Verifying Monoid Laws using Property-Based Tests
 
 A monoid is 3-tuple of the form `(A, op, zero)`, where `A` denotes the type it operates on, `op` denotes a combinator operation for two instances of `A` and `zero` is neutral.
   
