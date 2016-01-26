@@ -182,7 +182,7 @@ public class IntAdditionMonoid implements Monoid<Integer> {
 }
 ```
 
-Testing these monoid implementation - and in fact all, **all** monoid implementations - can be achieved by expressing the aforementioned properties as part of a Unit test. Have a look at this test class.
+Testing this monoid implementation - and in fact all, **all** possible monoid implementations - can be achieved by expressing the aforementioned properties as part of a unit test. Have a look at this test class.
 
 ```java
 public class MonoidTest {
