@@ -4,7 +4,7 @@ import java.util.Objects;
 
 /**
  * Represents a predicate (boolean-valued function) of three arguments. This is
- * the three-arity specialization of {@link java.util.function.Predicate}.
+ * the four-arity specialization of {@link java.util.function.Predicate}.
  *
  * @param <T>
  *     the type of the first argument to the predicate
